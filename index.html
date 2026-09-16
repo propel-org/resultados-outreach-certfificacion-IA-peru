@@ -172,7 +172,7 @@
   .tabpanel[hidden]{ display:none; }
   .tabpanel{ display:flex; flex-direction:column; gap:14px; padding-top:16px; }
 
-  .stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .stat-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
   @media (max-width:700px){ .stat-row{ grid-template-columns:1fr 1fr; } }
   .stat-tile{ background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
   .stat-tile .l{ font-size:11.5px; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em;}
@@ -244,6 +244,11 @@
       <div class="card">
         <h3>Canales de mayor difusión</h3>
         <div class="barchart-wrap" id="chart-canales"></div>
+        <h3 style="margin-top:22px;">Tráfico e interacción por canal</h3>
+        <div class="barchart-wrap" id="chart-trafico-canal"></div>
+        <div class="callout" style="margin-top:12px; font-size:12.5px;">
+          Cada canal se mide con su propia métrica, así que las barras no son directamente comparables entre sí: <b>Correos</b> son clics estimados en Mailchimp (audiencia × click rate de los 9 envíos medibles); <b>WhatsApp</b> son mensajes leídos del envío masivo; <b>Directo, Facebook, Instagram y Otros</b> son clics de Bitly por referencia de navegación. "Directo" probablemente incluye aperturas desde Correos y WhatsApp que no dejan referencia — por eso esos números pueden superponerse entre sí.
+        </div>
       </div>
 
       <div class="card">
@@ -263,7 +268,7 @@
           </div>
           <div class="insight">
             <div class="n">03</div>
-            <div class="t"><b>Un solo creativo ganó la pauta.</b> La variante "var5" concentró el 97% del presupuesto de Meta Ads con el CPM más bajo (S/5.33 vs. S/8.52–10.00 de las demás).
+            <div class="t"><b>Un solo creativo ganó la pauta.</b> La variante "var5" concentró el 86% del presupuesto de Meta Ads (S/815.38 de S/943.57) con el CPM más bajo (S/5.49 vs. S/7.67–14.47 de las demás).
               <span class="rec">Recomendación: testear variantes 48h con presupuesto mínimo y escalar solo al ganador claro.</span>
             </div>
           </div>
@@ -318,13 +323,14 @@
 
     <div class="tabpanel" id="tab-meta">
       <div class="stat-row">
-        <div class="stat-tile"><div class="l">Alcance</div><div class="v num">45,867</div></div>
-        <div class="stat-tile"><div class="l">Impresiones</div><div class="v num">60,820</div></div>
-        <div class="stat-tile"><div class="l">Inversión</div><div class="v num">S/ 327.15</div></div>
+        <div class="stat-tile"><div class="l">Inversión</div><div class="v num">S/ 943.57</div></div>
+        <div class="stat-tile"><div class="l">Impresiones</div><div class="v num">159,612</div></div>
+        <div class="stat-tile"><div class="l">Alcance</div><div class="v num">51,469</div></div>
+        <div class="stat-tile"><div class="l">Resultados (leads)</div><div class="v num">465</div></div>
       </div>
 
       <div class="callout">
-        La variante <b>var5</b> (conjunto "int_certificacion") fue el creativo con mejor rendimiento: concentró el <b>97.4% del presupuesto</b> y el <b>98% del alcance</b> pagado, al CPM más bajo de toda la campaña (S/5.33 por cada 1,000 impresiones). Las otras 4 variantes (var4, var6, "post grupal" y "workshop var3") apenas sumaron alcance y costaron entre 60% y 90% más caro por impresión — candidatas a pausar temprano en el próximo flight.
+        La variante <b>var5</b> (conjunto "int_certificacion") fue el creativo con mejor rendimiento: concentró el <b>86% del presupuesto</b> (S/815.38 de S/943.57), el <b>93% de las impresiones</b> y el <b>92% de los leads</b> (427 de 465), al CPM más bajo de toda la campaña (S/5.49 por cada 1,000 impresiones, frente a S/7.67–14.47 de las demás variantes).
       </div>
 
       <div class="grid-2">
@@ -343,6 +349,9 @@
       <div class="card">
         <h3>Distribución por género</h3>
         <div class="barchart-wrap" id="chart-metagender"></div>
+        <div class="callout" style="margin-top:12px; font-size:12.5px;">
+          El desglose por edad y género viene de un extracto demográfico de Meta Ads Manager (alcance base ≈45,867) tomado en un corte distinto al del gasto e impresiones de arriba (51,469 / S/943.57) — por eso los totales no coinciden exactamente.
+        </div>
       </div>
     </div>
   </section>
@@ -488,6 +497,24 @@
     ]
   });
 
+  // Tráfico e interacción por canal — mezcla clics de Mailchimp, lectura de WhatsApp y referencia de Bitly
+  var traficoCanal = [
+    {label:'Directo', value:1029, unidad:'clics (Bitly, sin referencia)'},
+    {label:'Correos', value:299, unidad:'clics estimados (Mailchimp)'},
+    {label:'WhatsApp', value:249, unidad:'mensajes leídos'},
+    {label:'Otros', value:146, unidad:'clics (Google, LinkedIn, QR y otros referrers)'},
+    {label:'Instagram', value:109, unidad:'clics (Bitly)'},
+    {label:'Facebook', value:57, unidad:'clics (Bitly)'}
+  ];
+  horizontalBars('chart-trafico-canal', {
+    width: 600, rowH: 38, padL: 100, padR: 70,
+    ariaLabel: 'Tráfico e interacción por canal',
+    items: traficoCanal.map(function(d){
+      var colorMap = {Directo: css('--accent-3'), Correos: css('--accent'), WhatsApp: css('--accent-2'), Otros: css('--ch-kunan'), Instagram: css('--ch-eshoy'), Facebook: css('--ch-ikigai')};
+      return {label:d.label, value:d.value, valueLabel:fmt(d.value), color: colorMap[d.label], tip:d.label+'<br>'+fmt(d.value)+' '+d.unidad};
+    })
+  });
+
   // Rendimiento de correos y demás acciones de difusión (cronológico) — las 24 acciones registradas
   // open/click en null = sin métrica medible (aliado externo, WhatsApp, orgánico o pendiente)
   var bloqueDifusion = [
@@ -502,7 +529,7 @@
     {fecha:'26–27 ago', envio:'Refuerzo Es Hoy', subject:'IA para organizaciones sociales: aún puedes inscribirte.', preview:'Empezamos el 9 de septiembre.', audiencia:null, open:null, click:null, link:null},
     {fecha:'27 ago', envio:'WhatsApp Comunidad de Fellows Propel Perú', subject:'La IA abre nuevas posibilidades para el impacto social...', preview:'Mensaje orgánico y manual a la comunidad de Fellows', audiencia:65, open:null, click:null, link:null},
     {fecha:'28 ago', envio:'Correo orgánico (Gmail) a bases externas', subject:'Invitación de Propel: Certificación IA para ONGs en Perú 🇵🇪', preview:'— sin preview text (envío manual)', audiencia:794, open:null, click:null, link:'https://docs.google.com/spreadsheets/d/1sw87qZinA_4I_6ZLhR-nWl-VUtXZKf53Rg5YfjyIqwQ/edit?usp=sharing', linkText:'Ver texto'},
-    {fecha:'28 ago', envio:'WhatsApp a bases externas', subject:'Hola! Soy Ale de Propel :) Te invitamos a la certificación IA para organizaciones sociales 🇵🇪 gratis y online...', preview:'— sin preview text (mensaje de WhatsApp)', audiencia:501, open:null, click:null, link:'https://docs.google.com/spreadsheets/d/1sw87qZinA_4I_6ZLhR-nWl-VUtXZKf53Rg5YfjyIqwQ/edit?usp=sharing', linkText:'Ver texto'},
+    {fecha:'28 ago', envio:'WhatsApp a bases externas', subject:'Hola! Soy Ale de Propel :) Te invitamos a la certificación IA para organizaciones sociales 🇵🇪 gratis y online. Inicia el 9 de sept. 🙌', preview:'— sin preview text (mensaje de WhatsApp)', audiencia:391, open:null, openLabel:'65.5% leídos', click:null, clickLabel:'28 respuestas únicas', link:'https://docs.google.com/spreadsheets/d/1sw87qZinA_4I_6ZLhR-nWl-VUtXZKf53Rg5YfjyIqwQ/edit?usp=sharing', linkText:'Ver texto'},
     {fecha:'31 ago', envio:'Newsletter Propel — Refuerzo', subject:'Última semana para inscribirte a la Certificación IA', preview:'Inscríbete antes del 9 de septiembre', audiencia:1023, open:18.6, click:3.2, link:'https://mailchi.mp/wepropel.org/an-puedes-inscribirte-a-la-certificacin-ia-6780363', linkText:'Ver en Mailchimp ↗'},
     {fecha:'08 sep', envio:'Newsletter Propel — Suscriptores recientes', subject:'Certificación IA para organizaciones sociales', preview:'Mañana: Te invitamos al workshop Lidera con un IA mindset', audiencia:514, open:13.4, click:1.4, link:'https://mailchi.mp/wepropel.org/certificacin-ia-para-organizaciones-sociales-guambv905l', linkText:'Ver en Mailchimp ↗'}
   ];
@@ -544,9 +571,9 @@
   (function(){
     var tbody = document.getElementById('tabla-correos-body');
     function renderRow(c){
-      var audienciaCell = (c.audiencia === null) ? '<td class="num"><span class="no-link">—</span></td>' : '<td class="num">'+fmt(c.audiencia)+'</td>';
-      var openCell = (c.open === null) ? '<td class="num"><span class="no-link">—</span></td>' : '<td class="num"><span class="strong">'+c.open.toFixed(1)+'%</span></td>';
-      var clickCell = (c.click === null) ? '<td class="num"><span class="no-link">—</span></td>' : '<td class="num"><span class="strong">'+c.click.toFixed(1)+'%</span></td>';
+      var audienciaCell = (c.audiencia === null) ? (c.audienciaLabel ? '<td class="num">'+escapeXML(c.audienciaLabel)+'</td>' : '<td class="num"><span class="no-link">—</span></td>') : '<td class="num">'+fmt(c.audiencia)+'</td>';
+      var openCell = (c.open === null) ? (c.openLabel ? '<td class="num">'+escapeXML(c.openLabel)+'</td>' : '<td class="num"><span class="no-link">—</span></td>') : '<td class="num"><span class="strong">'+c.open.toFixed(1)+'%</span></td>';
+      var clickCell = (c.click === null) ? (c.clickLabel ? '<td class="num">'+escapeXML(c.clickLabel)+'</td>' : '<td class="num"><span class="no-link">—</span></td>') : '<td class="num"><span class="strong">'+c.click.toFixed(1)+'%</span></td>';
       var campaignCell = c.link ? ('<td><a class="campaign-link" href="'+c.link+'" target="_blank" rel="noopener">'+escapeXML(c.linkText || 'Ver enlace ↗')+'</a></td>') : '<td><span class="no-link">—</span></td>';
       return '<tr>'
         + '<td>'+escapeXML(c.fecha)+'</td>'
@@ -611,13 +638,15 @@
     })
   });
 
-  // Meta Ads: rendimiento por creativo
+  // Meta Ads: rendimiento por creativo (gasto, impresiones y alcance reales, 1 jul - 14 sep 2026)
   var metaAds = [
-    ['var5', 44992, 5.33, 318.66, 'int_certificacion'],
-    ['var6', 446, 8.52, 4.37, 'int_certificacion'],
-    ['var4', 372, 8.78, 3.80, 'int_certificacion'],
-    ['Post\ngrupal', 56, 5.25, 0.31, 'int_post'],
-    ['workshop\nvar3', 1, 10.00, 0.01, 'int_workshop']
+    ['var5', 43930, 5.49, 815.38, 'int_certificacion'],
+    ['var3', 3674, 11.52, 64.62, 'int_workshop'],
+    ['var2', 1436, 12.76, 28.04, 'int_workshop'],
+    ['var1', 825, 14.47, 16.65, 'int_workshop'],
+    ['var6', 867, 8.67, 10.07, 'int_certificacion'],
+    ['var4', 485, 9.02, 5.62, 'int_certificacion'],
+    ['Post\ngrupal', 252, 7.67, 3.19, 'int_post']
   ];
   verticalBars('chart-metaads', {
     width: 460, height: 260, maxVal: 45000,
