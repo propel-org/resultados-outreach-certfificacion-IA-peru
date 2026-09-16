@@ -184,10 +184,15 @@
   }
   .callout b{ color:var(--accent); }
 
-  table.datatable{ width:100%; border-collapse:collapse; font-size:12.5px; }
-  table.datatable th{ text-align:left; color:var(--text-muted); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; padding:6px 8px; border-bottom:1px solid var(--border); }
-  table.datatable td{ padding:6px 8px; border-bottom:1px solid var(--border); color:var(--text-secondary); }
-  table.datatable td.num, table.datatable th.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  table.datatable{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:920px; }
+  table.datatable th{ text-align:left; color:var(--text-muted); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.03em; padding:8px 10px; border-bottom:1px solid var(--border-strong); white-space:nowrap; }
+  table.datatable td{ padding:9px 10px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; }
+  table.datatable td.num, table.datatable th.num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  table.datatable td.strong{ color:var(--text-primary); font-weight:600; }
+  table.datatable tr:hover td{ background:var(--surface-2); }
+  table.datatable .campaign-link{ display:inline-flex; align-items:center; gap:4px; color:var(--accent); font-weight:600; text-decoration:none; white-space:nowrap; }
+  table.datatable .campaign-link:hover{ text-decoration:underline; }
+  table.datatable .no-link{ color:var(--text-muted); font-size:11.5px; }
 
   footer{ font-size:11.5px; color:var(--text-muted); border-top:1px solid var(--border); padding-top:14px; line-height:1.6; }
 </style>
@@ -274,18 +279,45 @@
 
     <div class="card">
       <h3>Rendimiento de correos</h3>
-      <div class="desc">Open rate y click rate por envío, en orden cronológico — audiencia de cada correo debajo de su etiqueta (solo envíos con datos de Mailchimp)</div>
+      <div class="desc">Open rate y click rate por envío, en orden cronológico (solo envíos con datos de Mailchimp)</div>
       <div class="legend">
         <span><i style="background:var(--accent)"></i>Open rate</span>
         <span><i style="background:var(--accent-2)"></i>Click rate</span>
       </div>
       <div class="barchart-wrap" id="chart-correos"></div>
+
+      <div class="table-scroll" style="overflow-x:auto; margin-top:18px;">
+        <table class="datatable" id="tabla-correos">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Envío</th>
+              <th style="min-width:220px;">Asunto</th>
+              <th style="min-width:240px;">Preview text</th>
+              <th class="num">Audiencia</th>
+              <th class="num">Open rate</th>
+              <th class="num">Click rate</th>
+              <th>Campaña</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-correos-body"></tbody>
+        </table>
+      </div>
     </div>
 
     <div class="card">
       <h3>Rendimiento de enlaces (Bitly)</h3>
       <div class="desc">Top 10 enlaces por clics acumulados (de 28 enlaces activos, 1,330 clics totales)</div>
       <div class="barchart-wrap" id="chart-bitly"></div>
+    </div>
+
+    <div class="card">
+      <h3>Embudo de conversión: acciones por etapa</h3>
+      <div class="desc">Cantidad de personas que tomaron cada acción del journey, de la base de datos de certificación (n = 1,148 personas registradas)</div>
+      <div class="barchart-wrap" id="chart-embudo"></div>
+      <div class="callout" style="margin-top:12px; font-size:12.5px;">
+        Cada barra es una acción distinta, no un subconjunto estricto de la anterior: por ejemplo, 66 personas asistieron al workshop sin haber creado aún su cuenta en la Academy. Aun así, el orden refleja el journey esperado y muestra dónde se concentra la caída: de 1,148 registros solo el 42% crea cuenta en la Academy, el 15% asiste al workshop en vivo, y menos del 1% completa la certificación.
+      </div>
     </div>
   </section>
 
@@ -477,22 +509,48 @@
     ]
   });
 
-  // Rendimiento de correos (cronológico)
-  var correoLabels = ['17 ago\nNewsletter 1\nAud. 958','21 ago\nAlumni\nAud. 33','25 ago\nRefuerzo 1\nAud. 976','31 ago\nRefuerzo 2\nAud. 1,023','08 sep\nRec. workshop\nAud. 1,069','08 sep\nNews. suscr.\nAud. 514','09 sep\nRec. 30 min\nAud. 1,064','10 sep\nPost asistió\nAud. 180','10 sep\nPost no asist.\nAud. 940'];
-  var openVals = [19.3, 39.4, 18.2, 18.6, 29.3, 13.4, 22.0, 53.1, 17.2];
-  var clickVals = [3.5, 12.1, 2.6, 3.2, 5.0, 1.4, 7.0, 14.5, 4.5];
-  var audiences = [958, 33, 976, 1023, 1069, 514, 1064, 180, 940];
+  // Rendimiento de correos (cronológico) — dataset completo por envío
+  var correos = [
+    {fecha:'17 ago 2026', tag:'Newsletter 1', subject:'Certifícate en IA', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:958, open:19.3, click:3.5, link:'https://us13.campaign-archive.com/?u=fb476d0b434c0699ea4084461&id=419a48fd8b'},
+    {fecha:'21 ago 2026', tag:'Alumni', subject:'Ayúdanos a llegar a más organizaciones en Perú 🇵🇪', preview:'Certificación IA para organizaciones sociales de Propel, con el apoyo de Google.org', audiencia:33, open:39.4, click:12.1, link:'https://mailchi.mp/wepropel.org/aydanos-a-llegar-a-ms-organizaciones-en-per'},
+    {fecha:'25 ago 2026', tag:'Refuerzo 1', subject:'IA para organizaciones sociales: aún puedes inscribirte', preview:'Empezamos el 9 de septiembre.', audiencia:976, open:18.2, click:2.6, link:'https://us13.campaign-archive.com/?u=fb476d0b434c0699ea4084461&id=94e51db5fa'},
+    {fecha:'31 ago 2026', tag:'Refuerzo 2', subject:'Última semana para inscribirte a la Certificación IA', preview:'Inscríbete antes del 9 de septiembre', audiencia:1023, open:18.6, click:3.2, link:'https://mailchi.mp/wepropel.org/an-puedes-inscribirte-a-la-certificacin-ia-6780363'},
+    {fecha:'08 sep 2026', tag:'Rec. workshop', subject:'Mañana: Workshop: Lidera con un IA mindset.', preview:'Nos vemos mañana.', audiencia:1069, open:29.3, click:5.0, link:'https://mailchi.mp/wepropel.org/maana-workshop-lidera-con-un-ia-mindset-xthd3zb6c0-6780734'},
+    {fecha:'08 sep 2026', tag:'News. suscr.', subject:'Certificación IA para organizaciones sociales', preview:'Mañana: Te invitamos al workshop Lidera con un IA mindset', audiencia:514, open:13.4, click:1.4, link:'https://mailchi.mp/wepropel.org/certificacin-ia-para-organizaciones-sociales-guambv905l'},
+    {fecha:'09 sep 2026', tag:'Rec. 30 min', subject:'Estamos por empezar: Workshop: Lidera con un IA mindset.', preview:'Nos vemos en unos minutos.', audiencia:1064, open:22.0, click:7.0, link:'https://mailchi.mp/wepropel.org/estamos-por-empezar-workshop-lidera-con-un-ia-mindset-nmj8e2r9d3-6780743'},
+    {fecha:'10 sep 2026', tag:'Post asistió', subject:'El workshop fue el inicio. Esto es lo que sigue.', preview:'Continúa con la certificación', audiencia:180, open:53.1, click:14.5, link:'https://mailchi.mp/wepropel.org/el-workshop-fue-el-inicio-esto-es-lo-que-sigue-h6tkvr5tci'},
+    {fecha:'10 sep 2026', tag:'Post no asist.', subject:'Aún puedes certificarte en IA', preview:'Mira la grabación en la Nonprofit Academy y continúa', audiencia:940, open:17.2, click:4.5, link:'https://mailchi.mp/wepropel.org/an-puedes-certificarte-en-ia-s43oud0bg3'}
+  ];
+
   verticalBars('chart-correos', {
-    width: 1260, height: 320, maxVal: 60, labelFontSize: 9.3, padB: 60, mutedLastLine: true, showValues: true,
+    width: 1080, height: 300, maxVal: 60, labelFontSize: 10, showValues: true,
     valueFmt: function(v){ return v.toFixed(1)+'%'; },
     yfmt: function(v){ return Math.round(v)+'%'; },
     ariaLabel: 'Rendimiento de correos por fecha',
-    labels: correoLabels,
+    labels: correos.map(function(c){ return c.fecha.replace(' 2026','')+'\n'+c.tag; }),
     series: [
-      {name:'Open rate', color: css('--accent'), values: openVals.map(function(v,i){return {value:v, tip:'Open rate: '+v+'%<br>Audiencia: '+fmt(audiences[i])};})},
-      {name:'Click rate', color: css('--accent-2'), values: clickVals.map(function(v,i){return {value:v, tip:'Click rate: '+v+'%<br>Audiencia: '+fmt(audiences[i])};})}
+      {name:'Open rate', color: css('--accent'), values: correos.map(function(c){return {value:c.open, tip:c.subject+'<br>Open rate: '+c.open+'% · Audiencia: '+fmt(c.audiencia)};})},
+      {name:'Click rate', color: css('--accent-2'), values: correos.map(function(c){return {value:c.click, tip:c.subject+'<br>Click rate: '+c.click+'% · Audiencia: '+fmt(c.audiencia)};})}
     ]
   });
+
+  // Tabla detallada de correos: asunto, preview text, audiencia y enlace a la campaña
+  (function(){
+    var tbody = document.getElementById('tabla-correos-body');
+    var rows = correos.map(function(c){
+      return '<tr>'
+        + '<td>'+c.fecha+'</td>'
+        + '<td class="strong">'+escapeXML(c.tag)+'</td>'
+        + '<td>'+escapeXML(c.subject)+'</td>'
+        + '<td>'+escapeXML(c.preview)+'</td>'
+        + '<td class="num">'+fmt(c.audiencia)+'</td>'
+        + '<td class="num strong">'+c.open.toFixed(1)+'%</td>'
+        + '<td class="num strong">'+c.click.toFixed(1)+'%</td>'
+        + '<td><a class="campaign-link" href="'+c.link+'" target="_blank" rel="noopener">Ver en Mailchimp ↗</a></td>'
+        + '</tr>';
+    });
+    tbody.innerHTML = rows.join('');
+  })();
 
   // Bitly top 10
   var bitlyData = [
@@ -513,6 +571,27 @@
     items: bitlyData.map(function(d){
       var pct = (100*d[1]/1330).toFixed(1);
       return {label:d[0], value:d[1], valueLabel:d[1]+' · '+pct+'%', tip:d[0]+'<br>'+d[1]+' clics ('+pct+'% del total)'};
+    })
+  });
+
+  // Embudo de conversión: acciones por etapa
+  var embudoData = [
+    {label:'Se registraron (formulario)', value:1148, desc:'Total de personas en la base de certificación'},
+    {label:'Crearon cuenta en la Academy', value:486, desc:'Etapa "Inscrito" o "Completado" en la base'},
+    {label:'Asistieron al workshop en vivo', value:176, desc:'Campo "Asistió" = Sí'},
+    {label:'Completaron la certificación', value:10, desc:'Etapa "Completado"'}
+  ];
+  horizontalBars('chart-embudo', {
+    width: 640, rowH: 46, padL: 210, padR: 90, color: css('--accent'),
+    ariaLabel: 'Embudo de conversión por etapa',
+    items: embudoData.map(function(d, i){
+      var pctBase = (100*d.value/embudoData[0].value).toFixed(1);
+      var stepText = i===0 ? '' : ' · '+(100*d.value/embudoData[i-1].value).toFixed(1)+'% vs. paso anterior';
+      return {
+        label:d.label, value:d.value, valueLabel:fmt(d.value)+' · '+pctBase+'%',
+        color: i===embudoData.length-1 ? css('--good') : css('--accent'),
+        tip:d.label+'<br>'+d.desc+'<br>'+fmt(d.value)+' personas ('+pctBase+'% del total)'+stepText
+      };
     })
   });
 
