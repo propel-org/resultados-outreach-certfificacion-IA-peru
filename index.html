@@ -193,6 +193,9 @@
   table.datatable .campaign-link{ display:inline-flex; align-items:center; gap:4px; color:var(--accent); font-weight:600; text-decoration:none; white-space:nowrap; }
   table.datatable .campaign-link:hover{ text-decoration:underline; }
   table.datatable .no-link{ color:var(--text-muted); font-size:11.5px; }
+  table.datatable tr.block-header td{ background:var(--surface-2); color:var(--text-primary); font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; padding:10px 10px; border-bottom:1px solid var(--border-strong); border-top:2px solid var(--border-strong); }
+  table.datatable tr.block-header:first-child td{ border-top:none; }
+  table.datatable tr.block-header:hover td{ background:var(--surface-2); }
 
   footer{ font-size:11.5px; color:var(--text-muted); border-top:1px solid var(--border); padding-top:14px; line-height:1.6; }
 </style>
@@ -203,9 +206,6 @@
     <div class="eyebrow">Propel · Marketing &amp; Comunicaciones</div>
     <h1>Outreach Certificación IA para organizaciones sociales Perú</h1>
     <div class="subtitle">Del 9 al 25 de septiembre 2026</div>
-    <div class="datawindow">
-      Los envíos de difusión y pauta que alimentan este reporte corrieron del <b style="color:var(--text-secondary)">24 de julio al 15 de septiembre 2026</b> (convocatoria → workshop → primeras semanas de certificación). Fuentes: DB de certificación, Mailchimp, Bitly y Meta Ads Manager.
-    </div>
   </header>
 
   <!-- KPI ROW -->
@@ -213,7 +213,6 @@
     <div class="kpi">
       <div class="label">Nuevas organizaciones Google.org trained</div>
       <div class="value num">108</div>
-      <div class="sub">Orgs nuevas, con tipo y país elegible, aún no entrenadas antes</div>
     </div>
     <div class="kpi">
       <div class="label">Promedio Open Rate</div>
@@ -244,27 +243,22 @@
     <div class="grid-2">
       <div class="card">
         <h3>Canales de mayor difusión</h3>
-        <div class="desc">Organizaciones registradas por canal de atribución, desagregado (n = 1,148 registros, base de datos de certificación)</div>
         <div class="barchart-wrap" id="chart-canales"></div>
-        <div class="callout" style="margin-top:12px; font-size:12.5px;">
-          El formulario de registro captura 5 fuentes de atribución exactas: <b>Meta Ads</b>, <b>Propel</b> (newsletter, alumni y envíos orgánicos) y los 3 aliados — <b>Ikigai</b>, <b>Es Hoy</b> y <b>Kunan</b> — mostrados aquí por separado en vez de agrupados, incluidos los que trajeron menos leads. <b>WhatsApp</b> (envío masivo por Twilio) y <b>Social Media</b> orgánico no tienen un valor propio en el formulario: hoy quedan mezclados dentro de los registros atribuidos a "Propel". Para separarlos en Q4 recomendamos agregar esas dos opciones al dropdown "¿Cómo te enteraste?". Con los datos actuales no hay un remanente de "Otros": las 5 fuentes explican el 100% de los registros.
-        </div>
       </div>
 
       <div class="card">
         <h3>3 aprendizajes clave</h3>
-        <div class="desc">Insights accionables de este outreach</div>
         <div class="insight-list">
           <div class="insight">
             <div class="n">01</div>
-            <div class="t"><b>Meta Ads trae volumen, no calidad.</b> Generó el 43% de los registros (498) pero solo el 4% se convirtió en organización nueva y elegible (20 de 108) — muy por debajo del 12–14% de Propel y los aliados.
-              <span class="rec">Recomendación: agregar una pregunta de pre-calificación (tipo de organización) al formulario de Meta Ads antes de subir presupuesto.</span>
+            <div class="t"><b>Meta Ads trae volumen, no calidad.</b> El 43% de los registros (498) vino de Meta Ads, pero solo el 4% se convirtió en organización nueva y elegible — muy por debajo del 12–14% de Propel y los aliados.
+              <span class="rec">Recomendación: agregar una pregunta de pre-calificación al formulario de Meta Ads antes de subir presupuesto.</span>
             </div>
           </div>
           <div class="insight">
             <div class="n">02</div>
-            <div class="t"><b>La urgencia duplica la apertura.</b> Los recordatorios el mismo día del evento llegan a 22–53% de open rate, frente a 13–19% de los correos de difusión genérica.
-              <span class="rec">Recomendación: priorizar la cadencia de recordatorios de último momento sobre nuevos envíos genéricos.</span>
+            <div class="t"><b>El tráfico directo domina sobre redes sociales.</b> El 76.7% de los clics en Bitly llegan como "directo" (probablemente correo o WhatsApp con el link copiado), frente a solo ~15% de Instagram, Facebook y LinkedIn combinados.
+              <span class="rec">Recomendación: instrumentar mejor los UTM en los canales orgánicos y sociales para no perder esa atribución, ya que hoy no sabemos cuánto de ese "directo" en realidad viene de ahí.</span>
             </div>
           </div>
           <div class="insight">
@@ -279,7 +273,6 @@
 
     <div class="card">
       <h3>Rendimiento de correos y otras acciones de difusión</h3>
-      <div class="desc">Open rate y click rate por fecha (solo envíos medibles en Mailchimp). La tabla de abajo incluye las 24 acciones de difusión registradas — envíos propios, aliados y canales orgánicos — ordenadas cronológicamente; desplázate para ver todas.</div>
       <div class="legend">
         <span><i style="background:var(--accent)"></i>Open rate</span>
         <span><i style="background:var(--accent-2)"></i>Click rate</span>
@@ -291,7 +284,6 @@
           <thead>
             <tr>
               <th>Fecha</th>
-              <th>Etapa</th>
               <th style="min-width:260px;">Envío / acción de difusión</th>
               <th style="min-width:220px;">Asunto</th>
               <th style="min-width:240px;">Preview text</th>
@@ -304,44 +296,27 @@
           <tbody id="tabla-correos-body"></tbody>
         </table>
       </div>
-      <div class="callout" style="margin-top:12px; font-size:12.5px;">
-        Las acciones difundidas por aliados (Ikigai, Kunan, Es Hoy) y los mensajes de WhatsApp no reportan open/click rate: son medios fuera de Mailchimp y sin acceso a sus métricas internas. Igual se listan aquí porque fueron parte real del esfuerzo de difusión.
-      </div>
     </div>
 
     <div class="card">
-      <h3>Rendimiento de enlaces (Bitly)</h3>
-      <div class="desc">Top 10 enlaces por clics acumulados (de 28 enlaces activos, 1,330 clics totales)</div>
+      <h3>Rendimiento de top 10 enlaces según Bitly</h3>
+      <div class="desc">28 enlaces activos, 1,330 clics totales</div>
       <div class="barchart-wrap" id="chart-bitly"></div>
     </div>
 
     <div class="card">
       <h3>Embudo de conversión: acciones por etapa</h3>
-      <div class="desc">Cantidad de personas que tomaron cada acción del journey, de la base de datos de certificación (n = 1,148 personas registradas)</div>
       <div class="barchart-wrap" id="chart-embudo"></div>
-      <div class="callout" style="margin-top:12px; font-size:12.5px;">
-        Cada barra es una acción distinta, no un subconjunto estricto de la anterior: por ejemplo, 66 personas asistieron al workshop sin haber creado aún su cuenta en la Academy. Aun así, el orden refleja el journey esperado y muestra dónde se concentra la caída: de 1,148 registros solo el 42% crea cuenta en la Academy, el 15% asiste al workshop en vivo, y menos del 1% completa la certificación.
-      </div>
     </div>
   </section>
 
-  <!-- TABS -->
+  <!-- META ADS -->
   <section>
-    <div class="tabbar" role="tablist">
-      <button class="tabbtn" role="tab" id="tab-resumen-btn" aria-selected="true" aria-controls="tab-resumen" onclick="switchTab('resumen')">Resumen</button>
-      <button class="tabbtn" role="tab" id="tab-meta-btn" aria-selected="false" aria-controls="tab-meta" onclick="switchTab('meta')">Meta Ads</button>
+    <div class="section-head">
+      <h2>Meta Ads</h2>
     </div>
 
-    <div class="tabpanel" id="tab-resumen" role="tabpanel" aria-labelledby="tab-resumen-btn">
-      <div class="card">
-        <h3>Cómo leer este reporte</h3>
-        <div class="desc" style="margin-bottom:0;">
-          Las secciones de arriba (KPIs principales y Otros indicadores) resumen todo el outreach — newsletter, aliados, WhatsApp y Meta Ads combinados. La pestaña <b style="color:var(--text-primary)">Meta Ads</b> abre el detalle de la pauta paga: qué creativo funcionó mejor y a qué audiencia llegó.
-        </div>
-      </div>
-    </div>
-
-    <div class="tabpanel" id="tab-meta" role="tabpanel" aria-labelledby="tab-meta-btn" hidden>
+    <div class="tabpanel" id="tab-meta">
       <div class="stat-row">
         <div class="stat-tile"><div class="l">Alcance</div><div class="v num">45,867</div></div>
         <div class="stat-tile"><div class="l">Impresiones</div><div class="v num">60,820</div></div>
@@ -515,32 +490,40 @@
 
   // Rendimiento de correos y demás acciones de difusión (cronológico) — las 24 acciones registradas
   // open/click en null = sin métrica medible (aliado externo, WhatsApp, orgánico o pendiente)
-  var difusion = [
-    {fecha:'Desde 14 ago (automático)', etapa:'Post-registro', envio:'Confirmación de registro — landing web', subject:'Ya estás dentro: IA para organizaciones sociales', preview:'Revisa los detalles aquí.', audiencia:null, open:null, click:null, link:null, note:'Configurado en la Nonprofit Academy, sin métricas de Mailchimp (solo clics de bitly)'},
-    {fecha:'17 ago', etapa:'Difusión', envio:'Newsletter Propel — Lanzamiento', subject:'Certifícate en IA', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:958, open:19.3, click:3.5, link:'https://us13.campaign-archive.com/?u=fb476d0b434c0699ea4084461&id=419a48fd8b', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'Semana del 17 ago', etapa:'Difusión', envio:'Ikigai — Aliado (correo, WhatsApp, redes propias)', subject:'Certificación IA para organizaciones sociales', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:null, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'Semana del 17 ago', etapa:'Difusión', envio:'Kunan — Aliado (correo, WhatsApp, redes propias)', subject:'Certificación IA para organizaciones sociales', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:null, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'Semana del 17 ago', etapa:'Difusión', envio:'Es Hoy — Aliado (correo, WhatsApp, redes propias)', subject:'Certificación IA para organizaciones sociales', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:null, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'21 ago', etapa:'Difusión', envio:'Correo a Alumni / Fellows de Propel', subject:'Ayúdanos a llegar a más organizaciones en Perú 🇵🇪', preview:'Certificación IA para organizaciones sociales de Propel, con el apoyo de Google.org', audiencia:33, open:39.4, click:12.1, link:'https://mailchi.mp/wepropel.org/aydanos-a-llegar-a-ms-organizaciones-en-per', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'25 ago', etapa:'Difusión', envio:'Newsletter Propel — Refuerzo (aún puedes inscribirte)', subject:'IA para organizaciones sociales: aún puedes inscribirte', preview:'Empezamos el 9 de septiembre.', audiencia:976, open:18.2, click:2.6, link:'https://us13.campaign-archive.com/?u=fb476d0b434c0699ea4084461&id=94e51db5fa', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'25 ago – 4 sep (automático)', etapa:'Post-registro', envio:'Confirmación de registro — Meta Ads', subject:'Aprende a liderar con un IA mindset', preview:'Ahorra tiempo y amplía tu impacto social', audiencia:null, open:null, click:null, link:null, note:'Configurado en la Nonprofit Academy, sin métricas de Mailchimp (solo clics de bitly)'},
-    {fecha:'26–27 ago (refuerzo)', etapa:'Refuerzo Difusión', envio:'Ikigai — Refuerzo aliado', subject:'IA para organizaciones sociales: aún puedes inscribirte.', preview:'Empezamos el 9 de septiembre.', audiencia:null, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'26–27 ago (refuerzo)', etapa:'Refuerzo Difusión', envio:'Kunan — Refuerzo aliado', subject:'IA para organizaciones sociales: aún puedes inscribirte.', preview:'Empezamos el 9 de septiembre.', audiencia:null, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'26–27 ago (refuerzo)', etapa:'Refuerzo Difusión', envio:'Es Hoy — Refuerzo aliado', subject:'IA para organizaciones sociales: aún puedes inscribirte.', preview:'Empezamos el 9 de septiembre.', audiencia:null, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'27 ago', etapa:'Refuerzo Difusión', envio:'WhatsApp — Comunidad de Fellows Propel Perú', subject:'La IA abre nuevas posibilidades para el impacto social...', preview:'Mensaje orgánico y manual a la comunidad de Fellows', audiencia:65, open:null, click:null, link:null, note:'Mensaje de WhatsApp — sin métrica de apertura/clic'},
-    {fecha:'28 ago', etapa:'Difusión', envio:'Correo orgánico manual (Gmail) a bases externas', subject:'Invitación de Propel: Certificación IA para ONGs en Perú 🇵🇪', preview:'— sin preview text (envío manual)', audiencia:794, open:null, click:null, link:null, note:'Enviado manualmente por Gmail a bases de SENAJU, APCI, MIMP y gobiernos regionales — solo se miden clics de bitly'},
-    {fecha:'28 ago', etapa:'Difusión', envio:'WhatsApp masivo (Twilio) a bases externas', subject:'Hola! Soy Ale de Propel :) Te invitamos a la certificación IA para organizaciones sociales 🇵🇪 gratis y online...', preview:'— sin preview text (mensaje de WhatsApp)', audiencia:501, open:null, click:null, link:null, note:'Enviado vía Twilio + N8n — solo se miden clics de bitly'},
-    {fecha:'31 ago', etapa:'Difusión', envio:'Newsletter Propel — Refuerzo (última semana)', subject:'Última semana para inscribirte a la Certificación IA', preview:'Inscríbete antes del 9 de septiembre', audiencia:1023, open:18.6, click:3.2, link:'https://mailchi.mp/wepropel.org/an-puedes-inscribirte-a-la-certificacin-ia-6780363', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'08 sep', etapa:'Refuerzo Conversión', envio:'Recordatorio — 1 día antes del workshop', subject:'Mañana: Workshop: Lidera con un IA mindset.', preview:'Nos vemos mañana.', audiencia:1069, open:29.3, click:5.0, link:'https://mailchi.mp/wepropel.org/maana-workshop-lidera-con-un-ia-mindset-xthd3zb6c0-6780734', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'08 sep', etapa:'Difusión', envio:'Newsletter Propel — Suscriptores recientes', subject:'Certificación IA para organizaciones sociales', preview:'Mañana: Te invitamos al workshop Lidera con un IA mindset', audiencia:514, open:13.4, click:1.4, link:'https://mailchi.mp/wepropel.org/certificacin-ia-para-organizaciones-sociales-guambv905l', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'09 sep', etapa:'Refuerzo Conversión', envio:'Recordatorio — 30 min antes del workshop', subject:'Estamos por empezar: Workshop: Lidera con un IA mindset.', preview:'Nos vemos en unos minutos.', audiencia:1064, open:22.0, click:7.0, link:'https://mailchi.mp/wepropel.org/estamos-por-empezar-workshop-lidera-con-un-ia-mindset-nmj8e2r9d3-6780743', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'10 sep', etapa:'Post-workshop', envio:'Post-workshop — Sí asistieron', subject:'El workshop fue el inicio. Esto es lo que sigue.', preview:'Continúa con la certificación', audiencia:180, open:53.1, click:14.5, link:'https://mailchi.mp/wepropel.org/el-workshop-fue-el-inicio-esto-es-lo-que-sigue-h6tkvr5tci', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'10 sep', etapa:'Post-workshop', envio:'Post-workshop — No asistentes', subject:'Aún puedes certificarte en IA', preview:'Mira la grabación en la Nonprofit Academy y continúa', audiencia:940, open:17.2, click:4.5, link:'https://mailchi.mp/wepropel.org/an-puedes-certificarte-en-ia-s43oud0bg3', linkText:'Ver en Mailchimp ↗'},
-    {fecha:'14 sep (refuerzo)', etapa:'Refuerzo post-workshop', envio:'Ikigai — Refuerzo post-workshop', subject:'Sigamos juntos en la Certificación IA 🚀', preview:'Tienes hasta el 25 de septiembre.', audiencia:242, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'14 sep (refuerzo)', etapa:'Refuerzo post-workshop', envio:'Es Hoy — Refuerzo post-workshop', subject:'Sigamos juntos en la Certificación IA 🚀', preview:'Tienes hasta el 25 de septiembre.', audiencia:186, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'14 sep (refuerzo)', etapa:'Refuerzo post-workshop', envio:'Kunan — Refuerzo post-workshop', subject:'Sigamos juntos en la Certificación IA 🚀', preview:'Tienes hasta el 25 de septiembre.', audiencia:149, open:null, click:null, link:null, note:'Aliado externo — sin acceso a métricas'},
-    {fecha:'17 sep (programado)', etapa:'Certificación', envio:'Curso 1: Automatiza tu trabajo con IA', subject:'Sigue con la certificación IA para organizaciones sociales', preview:'Automatiza tu trabajo con IA', audiencia:null, open:null, click:null, link:null, note:'Pendiente de envío al cierre de esta actualización (15 sep)'}
+  var bloqueDifusion = [
+    {fecha:'17 ago', envio:'Newsletter Propel — Lanzamiento', subject:'Certifícate en IA', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:958, open:19.3, click:3.5, link:'https://us13.campaign-archive.com/?u=fb476d0b434c0699ea4084461&id=419a48fd8b', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'17 ago', envio:'Difusión Ikigai', subject:'Certificación IA para organizaciones sociales', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:null, open:null, click:null, link:null},
+    {fecha:'17 ago', envio:'Difusión Kunan', subject:'Certificación IA para organizaciones sociales', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:null, open:null, click:null, link:null},
+    {fecha:'17 ago', envio:'Difusión Es Hoy', subject:'Certificación IA para organizaciones sociales', preview:'Te invitamos al workshop: Lidera con un IA mindset', audiencia:null, open:null, click:null, link:null},
+    {fecha:'21 ago', envio:'Correo a Alumni / Fellows de Propel', subject:'Ayúdanos a llegar a más organizaciones en Perú 🇵🇪', preview:'Certificación IA para organizaciones sociales de Propel, con el apoyo de Google.org', audiencia:33, open:39.4, click:12.1, link:'https://mailchi.mp/wepropel.org/aydanos-a-llegar-a-ms-organizaciones-en-per', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'25 ago', envio:'Newsletter Propel — Refuerzo', subject:'IA para organizaciones sociales: aún puedes inscribirte', preview:'Empezamos el 9 de septiembre.', audiencia:976, open:18.2, click:2.6, link:'https://us13.campaign-archive.com/?u=fb476d0b434c0699ea4084461&id=94e51db5fa', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'26–27 ago', envio:'Refuerzo Ikigai', subject:'IA para organizaciones sociales: aún puedes inscribirte.', preview:'Empezamos el 9 de septiembre.', audiencia:null, open:null, click:null, link:null},
+    {fecha:'26–27 ago', envio:'Refuerzo Kunan', subject:'IA para organizaciones sociales: aún puedes inscribirte.', preview:'Empezamos el 9 de septiembre.', audiencia:null, open:null, click:null, link:null},
+    {fecha:'26–27 ago', envio:'Refuerzo Es Hoy', subject:'IA para organizaciones sociales: aún puedes inscribirte.', preview:'Empezamos el 9 de septiembre.', audiencia:null, open:null, click:null, link:null},
+    {fecha:'27 ago', envio:'WhatsApp Comunidad de Fellows Propel Perú', subject:'La IA abre nuevas posibilidades para el impacto social...', preview:'Mensaje orgánico y manual a la comunidad de Fellows', audiencia:65, open:null, click:null, link:null},
+    {fecha:'28 ago', envio:'Correo orgánico (Gmail) a bases externas', subject:'Invitación de Propel: Certificación IA para ONGs en Perú 🇵🇪', preview:'— sin preview text (envío manual)', audiencia:794, open:null, click:null, link:'https://docs.google.com/spreadsheets/d/1sw87qZinA_4I_6ZLhR-nWl-VUtXZKf53Rg5YfjyIqwQ/edit?usp=sharing', linkText:'Ver texto'},
+    {fecha:'28 ago', envio:'WhatsApp a bases externas', subject:'Hola! Soy Ale de Propel :) Te invitamos a la certificación IA para organizaciones sociales 🇵🇪 gratis y online...', preview:'— sin preview text (mensaje de WhatsApp)', audiencia:501, open:null, click:null, link:'https://docs.google.com/spreadsheets/d/1sw87qZinA_4I_6ZLhR-nWl-VUtXZKf53Rg5YfjyIqwQ/edit?usp=sharing', linkText:'Ver texto'},
+    {fecha:'31 ago', envio:'Newsletter Propel — Refuerzo', subject:'Última semana para inscribirte a la Certificación IA', preview:'Inscríbete antes del 9 de septiembre', audiencia:1023, open:18.6, click:3.2, link:'https://mailchi.mp/wepropel.org/an-puedes-inscribirte-a-la-certificacin-ia-6780363', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'08 sep', envio:'Newsletter Propel — Suscriptores recientes', subject:'Certificación IA para organizaciones sociales', preview:'Mañana: Te invitamos al workshop Lidera con un IA mindset', audiencia:514, open:13.4, click:1.4, link:'https://mailchi.mp/wepropel.org/certificacin-ia-para-organizaciones-sociales-guambv905l', linkText:'Ver en Mailchimp ↗'}
   ];
+
+  var bloqueConversion = [
+    {fecha:'Automatizado', envio:'Confirmación de registro — landing web', subject:'Ya estás dentro: IA para organizaciones sociales', preview:'Revisa los detalles aquí.', audiencia:null, open:null, click:null, link:'https://us13.admin.mailchimp.com/campaigns/edit?id=6779950', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'Automatizado', envio:'Confirmación de registro — Meta Ads', subject:'Aprende a liderar con un IA mindset', preview:'Ahorra tiempo y amplía tu impacto social', audiencia:null, open:null, click:null, link:'https://us13.admin.mailchimp.com/campaigns/edit?id=6779955', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'08 sep', envio:'Recordatorio — 1 día antes del workshop', subject:'Mañana: Workshop: Lidera con un IA mindset.', preview:'Nos vemos mañana.', audiencia:1069, open:29.3, click:5.0, link:'https://mailchi.mp/wepropel.org/maana-workshop-lidera-con-un-ia-mindset-xthd3zb6c0-6780734', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'09 sep', envio:'Recordatorio — 30 min antes del workshop', subject:'Estamos por empezar: Workshop: Lidera con un IA mindset.', preview:'Nos vemos en unos minutos.', audiencia:1064, open:22.0, click:7.0, link:'https://mailchi.mp/wepropel.org/estamos-por-empezar-workshop-lidera-con-un-ia-mindset-nmj8e2r9d3-6780743', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'10 sep', envio:'Post-workshop — Sí asistieron', subject:'El workshop fue el inicio. Esto es lo que sigue.', preview:'Continúa con la certificación', audiencia:180, open:53.1, click:14.5, link:'https://mailchi.mp/wepropel.org/el-workshop-fue-el-inicio-esto-es-lo-que-sigue-h6tkvr5tci', linkText:'Ver en Mailchimp ↗'},
+    {fecha:'10 sep', envio:'Post-workshop — No asistentes', subject:'Aún puedes certificarte en IA', preview:'Mira la grabación en la Nonprofit Academy y continúa', audiencia:940, open:17.2, click:4.5, link:'https://mailchi.mp/wepropel.org/an-puedes-certificarte-en-ia-s43oud0bg3', linkText:'Ver en Mailchimp ↗'}
+  ];
+
+  var bloqueCertificacion = [
+    {fecha:'14 sep', envio:'Refuerzo post-workshop Ikigai', subject:'Sigamos juntos en la Certificación IA 🚀', preview:'Tienes hasta el 25 de septiembre.', audiencia:242, open:null, click:null, link:null},
+    {fecha:'14 sep', envio:'Refuerzo post-workshop Es Hoy', subject:'Sigamos juntos en la Certificación IA 🚀', preview:'Tienes hasta el 25 de septiembre.', audiencia:186, open:null, click:null, link:null},
+    {fecha:'14 sep', envio:'Refuerzo post-workshop Kunan', subject:'Sigamos juntos en la Certificación IA 🚀', preview:'Tienes hasta el 25 de septiembre.', audiencia:149, open:null, click:null, link:null},
+    {fecha:'17 sep', envio:'Curso 1: Automatiza tu trabajo con IA', subject:'Sigue con la certificación IA para organizaciones sociales', preview:'Automatiza tu trabajo con IA', audiencia:null, open:null, click:null, link:null}
+  ];
+
+  var difusion = bloqueDifusion.concat(bloqueConversion, bloqueCertificacion);
 
   // El gráfico solo puede mostrar los envíos con open/click rate medible en Mailchimp
   var correos = difusion.filter(function(d){ return d.open !== null && d.click !== null; });
@@ -557,17 +540,16 @@
     ]
   });
 
-  // Tabla completa: las 24 acciones de difusión, con etapa, asunto, preview, audiencia y enlace a campaña
+  // Tabla completa: las 24 acciones de difusión, agrupadas en 3 bloques grandes (Difusión / Conversión / Certificación)
   (function(){
     var tbody = document.getElementById('tabla-correos-body');
-    var rows = difusion.map(function(c){
-      var audienciaCell = (c.audiencia === null) ? '<td class="num"><span class="no-link">No disponible</span></td>' : '<td class="num">'+fmt(c.audiencia)+'</td>';
-      var openCell = (c.open === null) ? '<td style="min-width:200px;"><span class="no-link">'+(c.note ? escapeXML(c.note) : 'No disponible')+'</span></td>' : '<td class="num"><span class="strong">'+c.open.toFixed(1)+'%</span></td>';
+    function renderRow(c){
+      var audienciaCell = (c.audiencia === null) ? '<td class="num"><span class="no-link">—</span></td>' : '<td class="num">'+fmt(c.audiencia)+'</td>';
+      var openCell = (c.open === null) ? '<td class="num"><span class="no-link">—</span></td>' : '<td class="num"><span class="strong">'+c.open.toFixed(1)+'%</span></td>';
       var clickCell = (c.click === null) ? '<td class="num"><span class="no-link">—</span></td>' : '<td class="num"><span class="strong">'+c.click.toFixed(1)+'%</span></td>';
-      var campaignCell = c.link ? ('<td><a class="campaign-link" href="'+c.link+'" target="_blank" rel="noopener">'+escapeXML(c.linkText || 'Ver enlace ↗')+'</a></td>') : '<td><span class="no-link">'+(c.open !== null ? 'No aplica' : 'No aplica')+'</span></td>';
+      var campaignCell = c.link ? ('<td><a class="campaign-link" href="'+c.link+'" target="_blank" rel="noopener">'+escapeXML(c.linkText || 'Ver enlace ↗')+'</a></td>') : '<td><span class="no-link">—</span></td>';
       return '<tr>'
         + '<td>'+escapeXML(c.fecha)+'</td>'
-        + '<td>'+escapeXML(c.etapa)+'</td>'
         + '<td class="strong">'+escapeXML(c.envio)+'</td>'
         + '<td>'+escapeXML(c.subject)+'</td>'
         + '<td>'+escapeXML(c.preview)+'</td>'
@@ -576,8 +558,14 @@
         + clickCell
         + campaignCell
         + '</tr>';
-    });
-    tbody.innerHTML = rows.join('');
+    }
+    function blockHeader(name){
+      return '<tr class="block-header"><td colspan="8">'+escapeXML(name)+'</td></tr>';
+    }
+    var html = blockHeader('Difusión') + bloqueDifusion.map(renderRow).join('')
+      + blockHeader('Conversión') + bloqueConversion.map(renderRow).join('')
+      + blockHeader('Certificación') + bloqueCertificacion.map(renderRow).join('');
+    tbody.innerHTML = html;
   })();
 
   // Bitly top 10
@@ -669,13 +657,5 @@
     })
   });
 
-  window.switchTab = function(name){
-    var panels = {resumen:'tab-resumen', meta:'tab-meta'};
-    var btns = {resumen:'tab-resumen-btn', meta:'tab-meta-btn'};
-    Object.keys(panels).forEach(function(k){
-      document.getElementById(panels[k]).hidden = (k!==name);
-      document.getElementById(btns[k]).setAttribute('aria-selected', k===name ? 'true':'false');
-    });
-  };
 })();
 </script>
